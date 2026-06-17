@@ -1,6 +1,7 @@
 from pathlib import Path
 import json
 import plotly.express as px
+import pandas as pd
 
 # 将数据作为字符串读取并转换为python对象
 path = Path('eq_data/eq_data_1_day_m1.json')
@@ -26,15 +27,27 @@ for eq_dict in all_eq_dicts:
     lons.append(lon)
     lats.append(lat)
 
+data = pd.DataFrame(
+    data=zip(lons, lats, titles, mags),
+    columns=['经度', '纬度', '位置', '震级']
+)
+data.head()
+
 fig = px.scatter(
-    x=lons,
-    y=lats,
-    labels={'x': '经度', 'y': '维度'},
+    # x=lons,
+    # y=lats,
+    # labels={'x': '经度', 'y': '维度'},
+    data,
+    x='经度',
+    y='纬度',
     range_x=[-200, 200],
     range_y=[-90, 90],
     width=800,
     height=800,
-    title='全球地震散点图'
+    title='全球地震散点图',
+    size='震级',
+    size_max=10,
+    hover_data={"位置": True},  # 鼠标悬浮显示信息
 )
 fig.write_html('global_earthquakes.html')
 fig.show()
