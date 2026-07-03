@@ -4,7 +4,7 @@ import plotly.express as px
 import pandas as pd
 
 # 将数据作为字符串读取并转换为python对象
-path = Path('eq_data/eq_data_1_day_m1.json')
+path = Path('eq_data/eq_data_30_day_m1.json')
 contents = path.read_text()
 all_eq_data = json.loads(contents)
 
@@ -47,6 +47,7 @@ fig = px.scatter(
     title='全球地震散点图',
     size='震级',
     size_max=10,
+    color='震级',
     hover_data={"位置": True},  # 鼠标悬浮显示信息
 )
 fig.write_html('global_earthquakes.html')
